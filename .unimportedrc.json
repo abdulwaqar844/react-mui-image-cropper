@@ -1,0 +1,17 @@
+{
+    "rootDir": ".",
+    "aliases": {
+      "src/*": ["./src", "./src/*"]
+    },
+    "entryFiles": [
+      {
+        "file": "src/index.js",
+        "aliases": {
+          "src/*": ["./src", "./src/*"]
+        },
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+    "moduleDirectory": ["node_modules"],
+    "ignorePatterns": ["**/node_modules/**", "**/*.d.ts"]
+  }
