@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import { UploadIllustration } from '../../assets/illustrations';
 import Modal from './Modal';
 
@@ -63,7 +63,12 @@ const UploadLogo = () => {
       <Stack display="flex" direction="column" alignItems="center" pt={3}>
         <Stack className="relative">
           {avatarUrl.current ? (
+            <>
+            
             <img src={avatarUrl.current} alt="Avatar"  height={300}/>
+      <Button variant='contained' color='success' sx={{my:3 }}>Download</Button>
+        </>
+        
           ) : (
             <Stack >
               <UploadIllustration sx={{ width: 220 }} />

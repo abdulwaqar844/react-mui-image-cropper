@@ -8,7 +8,7 @@ import ReactCrop, {
 import { canvasPreview } from './canvasPreview';
 import { useDebounceEffect } from './useDebounceEffect';
 
-import Iconify from '../../components/iconify';
+import Iconify from '../../components/Iconify';
 
 const ASPECT_RATIO = 2.3/1;
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {

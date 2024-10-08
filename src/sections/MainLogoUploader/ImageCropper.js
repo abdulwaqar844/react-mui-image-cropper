@@ -6,7 +6,7 @@ import { Box, Button, Slider, Stack, Typography } from '@mui/material';
 import { canvasPreview } from './canvasPreview';
 import { useDebounceEffect } from './useDebounceEffect';
 
-import Iconify from '../../components/iconify';
+import Iconify from '../../components/Iconify';
 
 const ASPECT_RATIO = 16 / 9;
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
@@ -29,6 +29,8 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
   const previewCanvasRef = useRef(null);
   const imgRef = useRef(null);
   const blobUrlRef = useRef('');
+  const hiddenAnchorRef = useRef(null)
+
   const [crop, setCrop] = useState();
   const [completedCrop, setCompletedCrop] = useState();
   const [scale, setScale] = useState(1);
@@ -41,7 +43,7 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
     }
   }
 
-  async function onDownloadCropClick() {
+  async function onCropClick() {
     const image = imgRef.current;
     const previewCanvas = previewCanvasRef.current;
     if (!image || !previewCanvas || !completedCrop) {
@@ -90,7 +92,55 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
     // }
     // setValue('mainLogo', file);
   }
+  async function onDownloadCropClick() {
+    const image = imgRef.current
+    const previewCanvas = previewCanvasRef.current
+    if (!image || !previewCanvas || !completedCrop) {
+      throw new Error('Crop canvas does not exist')
+    }
 
+    // This will size relative to the uploaded image
+    // size. If you want to size according to what they
+    // are looking at on screen, remove scaleX + scaleY
+    const scaleX = image.naturalWidth / image.width
+    const scaleY = image.naturalHeight / image.height
+
+    const offscreen = new OffscreenCanvas(
+      completedCrop.width * scaleX,
+      completedCrop.height * scaleY,
+    )
+    const ctx = offscreen.getContext('2d')
+    if (!ctx) {
+      throw new Error('No 2d context')
+    }
+
+    ctx.drawImage(
+      previewCanvas,
+      0,
+      0,
+      previewCanvas.width,
+      previewCanvas.height,
+      0,
+      0,
+      offscreen.width,
+      offscreen.height,
+    )
+    // You might want { type: "image/jpeg", quality: <0 to 1> } to
+    // reduce image size
+    const blob = await offscreen.convertToBlob({
+      type: 'image/png',
+    })
+
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current)
+    }
+    blobUrlRef.current = URL.createObjectURL(blob)
+
+    if (hiddenAnchorRef.current) {
+      hiddenAnchorRef.current.href = blobUrlRef.current
+      hiddenAnchorRef.current.click()
+    }
+  }
   useDebounceEffect(
     async () => {
       if (
@@ -150,7 +200,7 @@ const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
               onClick={() => {
                 const dataUrl = previewCanvasRef.current.toDataURL();
                 updateAvatar(dataUrl);
-                onDownloadCropClick();
+                onCropClick();
                 onClose();
               }}
             >

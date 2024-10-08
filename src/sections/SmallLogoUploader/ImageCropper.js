@@ -9,7 +9,7 @@ import { Box, Button, Slider, Stack, Typography } from '@mui/material';
 import { canvasPreview } from './canvasPreview';
 import { useDebounceEffect } from './useDebounceEffect';
 
-import Iconify from '../../components/iconify';
+import Iconify from '../../components/Iconify';
 
 const ASPECT_RATIO = 1;
 function centerAspectCrop(mediaWidth,  mediaHeight, aspect) {
