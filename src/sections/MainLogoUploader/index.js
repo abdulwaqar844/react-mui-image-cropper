@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import { useRef, useState } from 'react';
 import { Box, Stack } from '@mui/material';
 import { UploadIllustration } from '../../assets/illustrations';
@@ -85,7 +84,6 @@ const UploadLogo = () => {
             component="input"
             type="file"
             onChange={onSelectFile}
-            // eslint-disable-next-line no-return-assign
             onClick={(event) =>     event.target.value = ''}
 
             sx={{

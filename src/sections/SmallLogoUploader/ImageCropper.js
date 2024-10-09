@@ -27,7 +27,6 @@ function centerAspectCrop(mediaWidth,  mediaHeight, aspect) {
     mediaHeight
   );
 }
-// eslint-disable-next-line react/prop-types
 const ImageCropper = ({ onClose, updateAvatar, imgSrc }) => {
   const previewCanvasRef = useRef(null);
   const imgRef = useRef(null);
